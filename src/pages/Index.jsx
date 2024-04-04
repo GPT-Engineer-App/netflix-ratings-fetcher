@@ -24,7 +24,7 @@ const Index = () => {
       .map((show) => show.trim())
       .filter((show) => show !== "");
 
-    const apiKey = "YOUR_API_KEY";
+    const apiKey = "28404aa5";
     const promises = shows.map(async (show) => {
       try {
         const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(show)}&apikey=${apiKey}`);

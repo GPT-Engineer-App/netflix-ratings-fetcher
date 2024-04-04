@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+
 import { FaStar } from "react-icons/fa";
 import "tailwindcss/tailwind.css";
+
+
 
 const Index = () => {
   const [showInput, setShowInput] = useState("");
@@ -27,7 +30,7 @@ const Index = () => {
     const rankedShows = shows
       .map((show) => ({
         title: show,
-        rating: IMDB_DATA[show] || "N/A", // if the show isn't found, return 'N/A'
+        rating: IMDB_DATA[show] || "N/A",
       }))
       .sort((a, b) => b.rating - a.rating);
 

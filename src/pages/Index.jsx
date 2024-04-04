@@ -40,7 +40,7 @@ const Index = () => {
 
     const rankedShows = await Promise.all(promises);
     const foundShows = rankedShows.filter((show) => show.rating !== "N/A" && show.title);
-    const notFound = rankedShows.filter((show) => show.rating === "N/A" || !show.title);
+    const notFound = rankedShows.filter((show) => show.rating === "N/A").map((show) => show.title);
     foundShows.sort((a, b) => b.rating - a.rating);
     setShowList(foundShows);
     setNotFoundShows(notFound);

@@ -39,8 +39,8 @@ const Index = () => {
     });
 
     const rankedShows = await Promise.all(promises);
-    const foundShows = rankedShows.filter((show) => show.rating !== "N/A");
-    const notFound = rankedShows.filter((show) => show.rating === "N/A");
+    const foundShows = rankedShows.filter((show) => show.rating !== "N/A" && show.title !== undefined);
+    const notFound = rankedShows.filter((show) => show.rating === "N/A" || show.title === undefined);
     foundShows.sort((a, b) => b.rating - a.rating);
     setShowList(foundShows);
     setNotFoundShows(notFound);
@@ -85,6 +85,12 @@ const Index = () => {
           </table>
         )}
       </div>
+      {notFoundShows.length > 0 && (
+        <div className="mt-4">
+          <h2 className="text-xl font-bold mb-2">Shows with no info:</h2>
+          <textarea className="border-2 border-gray-300 w-full p-2" rows="3" readOnly value={notFoundShows.map((show) => show.title).join("\n")}></textarea>
+        </div>
+      )}
       {notFoundShows.length > 0 && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Shows with no info:</h2>

@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import "tailwindcss/tailwind.css";
 
-
-
 const Index = () => {
   const [showInput, setShowInput] = useState("");
   const [showList, setShowList] = useState([]);
@@ -19,21 +17,28 @@ const Index = () => {
     Ozark: 8.4,
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const shows = showInput
       .split(/,|\n/)
       .map((show) => show.trim())
       .filter((show) => show !== "");
 
-    // Simulating a fetch and sort by rating
-    const rankedShows = shows
-      .map((show) => ({
-        title: show,
-        rating: IMDB_DATA[show] || "N/A",
-      }))
-      .sort((a, b) => b.rating - a.rating);
+    const apiKey = "YOUR_API_KEY";
+    const promises = shows.map(async (show) => {
+      try {
+        const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(show)}&apikey=${apiKey}`);
+        const data = await response.json();
+        const { Title, imdbRating } = data;
+        return { title: Title, rating: imdbRating };
+      } catch (error) {
+        console.error(`Error fetching data for ${show}:`, error);
+        return { title: show, rating: "N/A" };
+      }
+    });
 
+    const rankedShows = await Promise.all(promises);
+    rankedShows.sort((a, b) => b.rating - a.rating);
     setShowList(rankedShows);
   };
 
